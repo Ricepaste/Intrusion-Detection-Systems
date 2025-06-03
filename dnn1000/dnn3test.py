@@ -1,15 +1,15 @@
 from __future__ import print_function
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 import pandas as pd
 import numpy as np
 np.random.seed(1337)  # for reproducibility
 from keras.preprocessing import sequence
-from keras.utils import np_utils
+from tensorflow.keras.utils import to_categorical
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Embedding
 from keras.layers import LSTM, SimpleRNN, GRU
 from keras.datasets import imdb
-from keras.utils.np_utils import to_categorical
+#from keras.utils.np_utils import to_categorical
 from sklearn.metrics import (precision_score, recall_score,f1_score, accuracy_score,mean_squared_error,mean_absolute_error)
 from sklearn import metrics
 from sklearn.preprocessing import Normalizer
@@ -17,8 +17,8 @@ import h5py
 from keras import callbacks
 from keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau, CSVLogger
 
-traindata = pd.read_csv('kdd/binary/Training.csv', header=None)
-testdata = pd.read_csv('kdd/binary/Testing.csv', header=None)
+traindata = pd.read_csv('C:/Users/ezech/OneDrive/Documents/GitHub/test/lab5/Intrusion-Detection-Systems/dnn1000/Training.csv', header=None)
+testdata = pd.read_csv('C:/Users/ezech/OneDrive/Documents/GitHub/test/lab5/Intrusion-Detection-Systems/dnn1000/Testing.csv', header=None)
 
 X = traindata.iloc[:,1:42]
 Y = traindata.iloc[:,0]

@@ -18,7 +18,8 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.svm import SVC
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import (precision_score, recall_score,f1_score, accuracy_score,mean_squared_error,mean_absolute_error, roc_curve, classification_report,auc)
-
+from xgboost import XGBClassifier
+from lightgbm import LGBMClassifier
 traindata = pd.read_csv('kddtrain.csv', header=None)
 testdata = pd.read_csv('kddtest.csv', header=None)
 
@@ -47,6 +48,67 @@ testlabel = np.array(C)
 #trainlabel = y_train
 #testlabel = y_test
 
+print("-----------------------------------------XGB---------------------------------")
+model = XGBClassifier(use_label_encoder=False, eval_metric='logloss')
+model.fit(traindata, trainlabel)
+
+# make predictions
+expected = testlabel
+np.savetxt('classical/expected.txt', expected, fmt='%01d')
+predicted = model.predict(testdata)
+proba = model.predict_proba(testdata)
+
+np.savetxt('classical/predictedlabelLR.txt', predicted, fmt='%01d')
+np.savetxt('classical/predictedprobaLR.txt', proba)
+
+y_train1 = expected
+y_pred = predicted
+accuracy = accuracy_score(y_train1, y_pred)
+recall = recall_score(y_train1, y_pred , average="binary")
+precision = precision_score(y_train1, y_pred , average="binary")
+f1 = f1_score(y_train1, y_pred, average="binary")
+
+print("accuracy")
+print("%.3f" %accuracy)
+print("precision")
+print("%.3f" %precision)
+print("racall")
+print("%.3f" %recall)
+print("f1score")
+print("%.3f" %f1)
+
+
+
+print("-----------------------------------------LightGBM---------------------------------")
+model = LGBMClassifier()
+model.fit(traindata, trainlabel)
+
+# make predictions
+expected = testlabel
+np.savetxt('classical/expected.txt', expected, fmt='%01d')
+predicted = model.predict(testdata)
+proba = model.predict_proba(testdata)
+
+np.savetxt('classical/predictedlabelLR.txt', predicted, fmt='%01d')
+np.savetxt('classical/predictedprobaLR.txt', proba)
+
+y_train1 = expected
+y_pred = predicted
+accuracy = accuracy_score(y_train1, y_pred)
+recall = recall_score(y_train1, y_pred , average="binary")
+precision = precision_score(y_train1, y_pred , average="binary")
+f1 = f1_score(y_train1, y_pred, average="binary")
+
+print("accuracy")
+print("%.3f" %accuracy)
+print("precision")
+print("%.3f" %precision)
+print("racall")
+print("%.3f" %recall)
+print("f1score")
+print("%.3f" %f1)
+
+'''
 print("-----------------------------------------LR---------------------------------")
 model = LogisticRegression()
 model.fit(traindata, trainlabel)
@@ -296,3 +358,4 @@ print("%.3f" %f1)
 
 
 
+'''
