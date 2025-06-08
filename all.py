@@ -13,16 +13,57 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import (precision_score, recall_score,f1_score, accuracy_score,mean_squared_error,mean_absolute_error)
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import Normalizer
+from sklearn.preprocessing import LabelEncoder, Normalizer
 from sklearn.model_selection import GridSearchCV
 from sklearn.svm import SVC
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import (precision_score, recall_score,f1_score, accuracy_score,mean_squared_error,mean_absolute_error, roc_curve, classification_report,auc)
 from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
-traindata = pd.read_csv('kddtrain.csv', header=None)
-testdata = pd.read_csv('kddtest.csv', header=None)
+#traindata = pd.read_csv('kddtrain.csv', header=None)
+#testdata = pd.read_csv('kddtest.csv', header=None)
+traindata = pd.read_csv('UNSWtrain.csv', header=0)
+testdata = pd.read_csv('UNSWtest.csv', header=0)
 
+
+# Drop irrelevant columns (optional: drop attack_cat if you're doing binary classification)
+traindata = traindata.drop(columns=['id', 'attack_cat'])
+testdata = testdata.drop(columns=['id', 'attack_cat'])
+
+# Categorical columns that need encoding
+categorical_cols = ['proto', 'service', 'state']
+
+# Apply Label Encoding (fit on train+test, then transform both)
+for col in categorical_cols:
+    all_values = pd.concat([traindata[col], testdata[col]])
+    encoder = LabelEncoder()
+    encoder.fit(all_values)
+
+    traindata[col] = encoder.transform(traindata[col])
+    testdata[col] = encoder.transform(testdata[col])
+
+# Now extract features and labels by name
+X = traindata.drop(columns=['label'])
+Y = traindata['label']
+
+T = testdata.drop(columns=['label'])
+C = testdata['label']
+
+# Normalize row-wise using sklearn's Normalizer
+scaler = Normalizer().fit(X)
+trainX = scaler.transform(X)
+
+scaler = Normalizer().fit(T)
+testT = scaler.transform(T)
+
+# Final NumPy arrays (same naming as before)
+traindata = np.array(trainX)
+trainlabel = np.array(Y)
+
+testdata = np.array(testT)
+testlabel = np.array(C)
+
+'''
 X = traindata.iloc[:,1:42]
 Y = traindata.iloc[:,0]
 C = testdata.iloc[:,0]
@@ -40,7 +81,7 @@ trainlabel = np.array(Y)
 
 testdata = np.array(testT)
 testlabel = np.array(C)
-
+'''
 
 
 #traindata = X_train
@@ -108,7 +149,7 @@ print("%.3f" %recall)
 print("f1score")
 print("%.3f" %f1)
 
-'''
+
 print("-----------------------------------------LR---------------------------------")
 model = LogisticRegression()
 model.fit(traindata, trainlabel)
@@ -355,7 +396,3 @@ print("racall")
 print("%.3f" %recall)
 print("f1score")
 print("%.3f" %f1)
-
-
-
-'''
