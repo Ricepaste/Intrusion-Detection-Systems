@@ -17,7 +17,7 @@ Intrusion detection, deep neural networks, machine learning, deep learning
 
 ## Docker Build:
 * Run `docker build -t my-tf-gpu-app .`
-* Run `docker run --rm -it --gpus all my-tf-gpu-app bash`
+* Run `docker run -d -it --rm -v "$(Get-Location):/app" --gpus all my-tf-gpu-app`
 
 ## How to run the code?
 ### For **Classical Machine Learning**
