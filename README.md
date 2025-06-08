@@ -16,8 +16,14 @@ Intrusion detection, deep neural networks, machine learning, deep learning
 <sup>‡</sup>Center for Cyber Security Systems and Networks, Amrita School of Engineering, Amritapuri Amrita Vishwa Vidyapeetham, India.
 
 ## Docker Build:
-* Run `docker build -t my-tf-gpu-app .`
-* Run `docker run -d -it --rm -v "$(Get-Location):/app" --gpus all my-tf-gpu-app`
+* Run (Powershell)
+  ```powershell
+  docker build -t my-tf-gpu-app .
+  ```
+* Run (Powershell)
+  ```powershell
+  docker run -d -it --rm -v "$(Get-Location):/app" --gpus all my-tf-gpu-app
+  ```
 
 ## How to run the code?
 ### For **Classical Machine Learning**
