@@ -60,7 +60,7 @@ model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
 checkpointer = callbacks.ModelCheckpoint(filepath="dnn/kddresults/dnn1layer/checkpoint-{epoch:02d}.keras", verbose=1, save_best_only=True, monitor='loss')
 csv_logger = CSVLogger('dnn/kddresults/dnn1layer/training_set_dnnanalysis.csv',separator=',', append=False)
 model.fit(X_train, y_train, batch_size=batch_size, epochs=100, callbacks=[checkpointer,csv_logger])
-model.save("kddresults/dnn1layer/dnn1layer_model.keras")
+model.save("dnn/kddresults/dnn1layer/dnn1layer_model.keras")
 
 
 
