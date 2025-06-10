@@ -70,8 +70,8 @@ class DownstreamClassifier(nn.Module):
         super(DownstreamClassifier, self).__init__()
         self.encoder = encoder
         # 凍結 encoder 參數 (通常預訓練後不會再訓練 encoder)
-        for param in self.encoder.parameters():
-            param.requires_grad = False
+        # for param in self.encoder.parameters():
+        #     param.requires_grad = False
         self.classifier = nn.Linear(encoder_output_dim, num_classes)
 
     def forward(self, x):

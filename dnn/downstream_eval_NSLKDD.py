@@ -29,16 +29,16 @@ if device.type == 'cuda':
     print(f"CUDA Device Count: {torch.cuda.device_count()}")
 
 # 2. 資料載入和預處理 (訓練和測試數據)
-traindata = pd.read_csv('dnn/kdd/binary/Training.csv', header=None)
-testdata = pd.read_csv('dnn/kdd/binary/Testing.csv', header=None)
+traindata = pd.read_csv('dataset/NSL-KDD/KDDTrain+_20Percent.csv', header=0)
+testdata = pd.read_csv('dataset/NSL-KDD/KDDTest+.csv', header=0)
 
 # 訓練集
-X_train_data = traindata.iloc[:, 1:42]
-y_train_data = traindata.iloc[:, 0]
+X_train_data = traindata.iloc[:, 0:41]
+y_train_data = traindata.iloc[:, 41]
 
 # 測試集
-X_test_data = testdata.iloc[:, 1:42]
-y_test_data = testdata.iloc[:, 0] # 這裡需要測試集的標籤 C
+X_test_data = testdata.iloc[:, 0:41]
+y_test_data = testdata.iloc[:, 41] # 這裡需要測試集的標籤 C
 
 # 將 NumPy 陣列轉換為浮點數類型
 trainX_np = np.array(X_train_data).astype(np.float32)
@@ -74,7 +74,7 @@ test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 input_dim = 41
 encoder_output_dim = 1024 # 確保與預訓練時的 encoder_output_dim 一致
 
-encoder_model_path = "dnn/kddresults/dnn1layer/simsiam_encoder_final.pth" # 預訓練模型保存路徑
+encoder_model_path = "dnn/kddresults/dnn1layer/NSLKDD_simsiam_encoder_final.pth" # 預訓練模型保存路徑
 results_base_dir = "dnn/kddresults/dnn1layer"
 
 # 檢查預訓練模型是否存在
@@ -170,6 +170,6 @@ print(cm)
 print("---------------------------------------")
 
 # 7. 保存最終分類器模型 (可選)
-classifier_model_save_path = os.path.join(results_base_dir, "downstream_classifier_final.pth")
+classifier_model_save_path = os.path.join(results_base_dir, r"NSLKDD_downstream_classifier_final.pth")
 torch.save(classifier_model.state_dict(), classifier_model_save_path)
 print(f"\nFinal Downstream Classifier model saved to {classifier_model_save_path}")
