@@ -28,14 +28,14 @@ if device.type == 'cuda':
     print(f"CUDA Device Count: {torch.cuda.device_count()}")
 
 
-# 2. 資料載入 (與原 Keras 版本相同)
-traindata = pd.read_csv('dnn/kdd/binary/Training.csv', header=None)
-testdata = pd.read_csv('dnn/kdd/binary/Testing.csv', header=None)
+# 2. 資料載入 
+traindata = pd.read_csv('dataset/NSL-KDD/KDDTrain+_20Percent.csv', header=0)
+testdata = pd.read_csv('dataset/NSL-KDD/KDDTest+.csv', header=0)
 
-X = traindata.iloc[:, 1:42]
-Y = traindata.iloc[:, 0]
-C = testdata.iloc[:, 0]
-T = testdata.iloc[:, 1:42]
+X = traindata.iloc[:, 0:41]
+Y = traindata.iloc[:, 41]
+C = testdata.iloc[:, 41]
+T = testdata.iloc[:, 0:41]
 
 trainX = np.array(X)
 testT = np.array(T)
@@ -94,9 +94,9 @@ optimizer = optim.Adam(model.parameters(), lr=0.001) # Adam 優化器，這裡�
 # 5. 訓練循環和回調函數 (手動實現)
 epochs = 100
 results_base_dir = "dnn/kddresults/dnn1layer"
-checkpoint_filepath = os.path.join(results_base_dir, "checkpoint-{epoch:02d}.pth") # PyTorch 習慣用 .pth
-csv_log_filepath = os.path.join(results_base_dir, "training_set_dnnanalysis.csv")
-model_save_path = os.path.join(results_base_dir, "dnn1layer_model.pth")
+checkpoint_filepath = os.path.join(results_base_dir, "NSLKDD_DNN_checkpoint-{epoch:02d}.pth") # PyTorch 習慣用 .pth
+csv_log_filepath = os.path.join(results_base_dir, "NSLKDD_DNN_training_set_dnnanalysis.csv")
+model_save_path = os.path.join(results_base_dir, "NSLKDD_DNN_dnn1layer_model.pth")
 
 # 確保結果目錄存在
 os.makedirs(results_base_dir, exist_ok=True)
