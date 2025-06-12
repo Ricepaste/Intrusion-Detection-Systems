@@ -20,8 +20,8 @@ import h5py
 from keras import callbacks
 from keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau, CSVLogger
 
-traindata = pd.read_csv('kdd/binary/Training.csv', header=None)
-testdata = pd.read_csv('kdd/binary/Testing.csv', header=None)
+traindata = pd.read_csv('dnn/kdd/binary/Training.csv', header=None)
+testdata = pd.read_csv('dnn/kdd/binary/Testing.csv', header=None)
 
 X = traindata.iloc[:,1:42]
 Y = traindata.iloc[:,0]
@@ -59,22 +59,5 @@ model.add(Activation('sigmoid'))
 model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
 checkpointer = callbacks.ModelCheckpoint(filepath="kddresults/dnn3layer/checkpoint-{epoch:02d}.keras", verbose=1, save_best_only=True, monitor='loss')
 csv_logger = CSVLogger('kddresults/dnn3layer/training_set_dnnanalysis.csv',separator=',', append=False)
-
-# 建立必要的資料夾
-os.makedirs("kddresults/dnn3layer", exist_ok=True)
-os.makedirs("dnn/chung_results", exist_ok=True)
-
-# 設定 callbacks
-checkpointer = callbacks.ModelCheckpoint(
-    filepath="kddresults/dnn3layer/checkpoint-{epoch:02d}.keras", 
-    verbose=1, 
-    save_best_only=True, 
-    monitor='loss'
-)
-csv_logger = CSVLogger(
-    'kddresults/dnn3layer/training_set_dnnanalysis.csv',
-    separator=',',
-    append=False
-)
 model.fit(X_train, y_train,  batch_size=batch_size, epochs=100, callbacks=[checkpointer,csv_logger])
 model.save("dnn/chung_results/dnn3layer_model.hdf5")
