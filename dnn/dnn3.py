@@ -68,4 +68,3 @@ model.save("dnn/chung_results/dnn3layer_model.hdf5")
 
 
 
-
