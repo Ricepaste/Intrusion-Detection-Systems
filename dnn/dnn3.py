@@ -58,3 +58,10 @@ checkpointer = callbacks.ModelCheckpoint(filepath="kddresults/dnn3layer/checkpoi
 csv_logger = CSVLogger('kddresults/dnn3layer/training_set_dnnanalysis.csv',separator=',', append=False)
 model.fit(X_train, y_train,  batch_size=batch_size, nb_epoch=100, callbacks=[checkpointer,csv_logger])
 model.save("kddresults/dnn3layer/dnn3layer_model.hdf5")
+
+
+
+
+
+
+
