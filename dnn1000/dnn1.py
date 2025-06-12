@@ -16,6 +16,9 @@ from sklearn.preprocessing import Normalizer
 import h5py
 from keras import callbacks
 from keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau, CSVLogger
+import os
+print("Current working directory:", os.getcwd())
+print("File exists:", os.path.exists('kdd/binary/Training.csv'))
 
 traindata = pd.read_csv('kdd/binary/Training.csv', header=None)
 testdata = pd.read_csv('kdd/binary/Testing.csv', header=None)
